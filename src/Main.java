@@ -145,6 +145,7 @@ public class Main {
         System.out.println(groupCount);
         pw.print(sb.toString());
         pw.close();
+        sb.setLength(0);
 
     //------------------------------------------------------------------------------------------
 
@@ -167,43 +168,56 @@ public class Main {
             bilik = scanner.next();
             lectName = scanner.next();
             lectNum = scanner.next();
-            subType = scanner.next();
+            subType = scanner.next().trim();
 
-
-            sub = (Subject) subclassList.get(q);
-
-            if(sub.getCode().equalsIgnoreCase(subCode))
+            for(int i =0; i <subclassList.size(); i++)
             {
-                if(subType.equalsIgnoreCase("M"))
+                sub = (Subject) subclassList.get(i);
+
+                if(sub.getCode().equalsIgnoreCase(subCode))
                 {
-                    if(sub.getM() == 0)
+                    System.out.println(" --------------------------------------------------- " + subType);
+                    if(subType.equalsIgnoreCase("M"))
                     {
-                        int hourTeach = Integer.parseInt(mula) - Integer.parseInt(tamat);
-                        sub.setM(hourTeach);
+
+                        if(sub.getM() == 0)
+                        {
+                            int start = Integer.parseInt(mula);
+                            int finish = Integer.parseInt(tamat);
+                            if(start> finish){finish +=12;}
+                            int hourTeach =  finish - start;
+                            sub.setM(hourTeach);
+                        }
                     }
-                }
-                else if(subType.equalsIgnoreCase("T"))
+                    else if(subType.equalsIgnoreCase("T"))
                     {
                         if(sub.getT() == 0)
                         {
-                            int hourTeach = Integer.parseInt(mula) - Integer.parseInt(tamat);
+                            int start = Integer.parseInt(mula);
+                            int finish = Integer.parseInt(tamat);
+                            if(start> finish){finish +=12;}
+                            int hourTeach =  finish - start;
                             sub.setT(hourTeach);
                         }
                     }
-                else if(subType.equalsIgnoreCase("S"))
+                    else if(subType.equalsIgnoreCase("S"))
                     {
                         if(sub.getS() == 0)
                         {
-                            int hourTeach = Integer.parseInt(mula) - Integer.parseInt(tamat);
+                            int start = Integer.parseInt(mula);
+                            int finish = Integer.parseInt(tamat);
+                            if(start> finish){finish +=12;}
+                            int hourTeach =  finish - start;
                             sub.setS(hourTeach);
                         }
                     }
-                subclassList.set(q,sub);
+                    subclassList.set(i,sub);
+                }
+
             }
-
-
             q++;
         }
+
 
         for (int i = 0; i < subclassList.size(); i++)
         {
@@ -212,12 +226,17 @@ public class Main {
             sub = (Subject) subclassList.get(i);
 
             System.out.println(sub.getCode() + "  " + sub.getName() + " " + sub.getM() + " " + sub.getT() + " " + sub.getS());
-            sb.append(subjectList.get(i));
+            sb.append(sub.getCode()+ " ,");
+            sb.append(sub.getName()+ " ,");
+            sb.append(sub.getM()+ " ,");
+            sb.append(sub.getT()+ " ,");
+            sb.append(sub.getS()+ " ,");
             sb.append('\n');
         }
         sj.print(sb);
         sj.close();
         sb.setLength(0);
-    }
 
+        System.out.println("subject list size : " + subclassList.size());
+    }
 }
